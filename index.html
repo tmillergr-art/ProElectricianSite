@@ -55,6 +55,14 @@
     height: auto;
     display: block;
   }
+  nav > a.nav-logo-link {
+    display: inline-block;
+  }
+  nav > a.nav-logo-link img {
+    width: 140px;
+    height: auto;
+    display: block;
+  }
   nav ul {
     list-style: none;
     display: flex;
@@ -125,6 +133,9 @@
       display: flex;
     }
     nav > img.nav-logo {
+      display: none;
+    }
+    nav > a.nav-logo-link {
       display: none;
     }
     nav ul li.mobile-logo-li {
@@ -347,9 +358,11 @@
   <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="Toggle menu">
     &#9776;
   </button>
-  <img src="pro-electrician-logo.png" alt="Pro Electrician Logo" class="nav-logo"/>
+  <a href="#hero" class="nav-logo-link">
+    <img src="images/pro-electrician-logo.png" alt="Pro Electrician Logo" class="nav-logo"/>
+  </a>
   <ul id="primary-menu" class="menu">
-    <li class="mobile-logo-li"><img src="pro-electrician-logo.png" alt="Pro Electrician Logo" class="mobile-menu-logo"/></li>
+    <li class="mobile-logo-li"><img src="images/pro-electrician-logo.png" alt="Pro Electrician Logo" class="mobile-menu-logo"/></li>
     <li><a href="#hero">Home</a></li>
     <li><a href="#about">About Us</a></li>
     <li><a href="#services">Services</a></li>
@@ -359,10 +372,10 @@
 </nav>
 
 <section id="hero" role="banner">
-  <img src="pro-electrician-logo.png" alt="Pro Electrician Logo" class="logo" />
+  <img src="images/pro-electrician-logo.png" alt="Pro Electrician Logo" class="logo" />
   <h1>Pro Electrician</h1>
   <p>Your trusted source for professional electrical services with quality and safety at heart.</p>
-  <button class="btn" onclick="document.getElementById('contact').scrollIntoView()">Contact Us</button>
+  <button class="btn" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })">Contact Us</button>
 </section>
 
 <section id="about" role="region" aria-labelledby="about-heading">
@@ -419,90 +432,7 @@
   <p style="font-size: 0.9rem; margin-top: 0.5rem;">Licensed | Insured | Professional</p>
 </footer>
 
-<script>
-  const menuToggle = document.querySelector('.menu-toggle');
-  const menu = document.getElementById('primary-menu');
-  const contactForm = document.getElementById('contact-form');
-  const formMessage = document.getElementById('form-message');
-
-  // Mobile menu toggle
-  menuToggle.addEventListener('click', () => {
-    const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-    menuToggle.setAttribute('aria-expanded', !expanded);
-    menu.classList.toggle('show');
-  });
-
-  // Close menu when a link is clicked
-  menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menu.classList.remove('show');
-    });
-  });
-
-  // Form submission
-  contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-    
-    if (!name || !email || !message) {
-      showFormMessage('Please fill in all fields.', 'error');
-      return;
-    }
-    
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      showFormMessage('Please enter a valid email address.', 'error');
-      return;
-    }
-    
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-    
-    try {
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('message', message);
-      
-      const response = await fetch('contact.php', {
-        method: 'POST',
-        body: formData
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        showFormMessage('Message sent successfully! We\'ll be in touch soon.', 'success');
-        contactForm.reset();
-      } else {
-        showFormMessage(data.error || 'Failed to send message. Please try again.', 'error');
-      }
-    } catch (error) {
-      showFormMessage('Error sending message. Please try again later.', 'error');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Message';
-    }
-  });
-
-  function showFormMessage(text, type) {
-    formMessage.textContent = text;
-    formMessage.style.display = 'block';
-    formMessage.style.backgroundColor = type === 'success' ? '#d4edda' : '#f8d7da';
-    formMessage.style.color = type === 'success' ? '#155724' : '#721c24';
-    formMessage.style.border = `1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'}`;
-    
-    if (type === 'success') {
-      setTimeout(() => {
-        formMessage.style.display = 'none';
-      }, 5000);
-    }
-  }
-</script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
