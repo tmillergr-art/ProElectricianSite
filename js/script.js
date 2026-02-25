@@ -104,3 +104,28 @@ function showFormMessage(text, type) {
     }, 5000);
   }
 }
+
+// Service filter functionality
+const serviceFilterInput = document.getElementById('service-filter');
+if (serviceFilterInput) {
+  serviceFilterInput.addEventListener('input', () => {
+    const filter = serviceFilterInput.value.toLowerCase();
+    document.querySelectorAll('#services .service').forEach(s => {
+      const text = s.textContent.toLowerCase();
+      if (text.includes(filter)) {
+        // show: remove hiding class and ensure display
+        s.classList.remove('hidden');
+        s.style.display = '';
+      } else {
+        // fade then collapse
+        s.classList.add('hidden');
+        // after opacity transition, set display none to collapse
+        setTimeout(() => {
+          if (s.classList.contains('hidden')) {
+            s.style.display = 'none';
+          }
+        }, 300);
+      }
+    });
+  });
+}

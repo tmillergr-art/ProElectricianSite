@@ -306,7 +306,11 @@
     width: 280px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  }
+  #services .service.hidden {
+    opacity: 0;
+    pointer-events: none;
   }
 
   #services .service:hover {
@@ -539,12 +543,21 @@
       width: 100%;
       height: 250px;
     }
+    /* allow cards to wrap into 2 per row on small screens */
     #services .service-list {
-      flex-direction: column;
-      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     #services .service {
-      width: 90%;
+      width: calc(50% - 20px);
+      min-width: 220px;
+    }
+    /* if screen is very narrow, drop back to single column */
+    @media (max-width: 400px) {
+      #services .service {
+        width: 90%;
+      }
     }
     #testimonials .testimonial-list {
       grid-template-columns: 1fr;
@@ -797,6 +810,38 @@
       <div class="testimonial-author">
         <div class="author-avatar avatar-lk">LK</div>
         <footer class="author">Lisa K.</footer>
+      </div>
+    </blockquote>
+    <blockquote class="testimonial">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"They installed our EV charger quickly and cleanly – very professional."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background:linear-gradient(135deg,#1a7d4b,#0d5a35);">RB</div>
+        <footer class="author">Rita B.</footer>
+      </div>
+    </blockquote>
+    <blockquote class="testimonial">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"Emergency help saved us during a blackout. Couldn't have asked for a faster response."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background:linear-gradient(135deg,#da1212,#bb1010);">MW</div>
+        <footer class="author">Mark W.</footer>
+      </div>
+    </blockquote>
+    <blockquote class="testimonial">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"Our new lighting design transformed the kitchen. Thanks for the great ideas!"</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background:linear-gradient(135deg,#002f6c,#1a4b99);">EK</div>
+        <footer class="author">Emma K.</footer>
+      </div>
+    </blockquote>
+    <blockquote class="testimonial">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"Very knowledgeable team – they rewired our workshop flawlessly."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar" style="background:linear-gradient(135deg,#1a7d4b,#0d5a35);">TF</div>
+        <footer class="author">Tom F.</footer>
       </div>
     </blockquote>
   </div>
