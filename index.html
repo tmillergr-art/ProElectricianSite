@@ -54,7 +54,7 @@
 }
 </script>
 <title>Pro Electrician - Professional Electrical Services</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
 <style>
   /* Reset & base */
   * {
@@ -308,6 +308,7 @@
   #about h2,
   #services h2,
   #testimonials h2,
+  #projects h2,
   #contact h2 {
     color: #002f6c;
     margin-bottom: 1rem;
@@ -471,6 +472,100 @@
     font-size: 0.95rem;
   }
 
+  /* Projects */
+  #projects .projects-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  #projects .project-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  #projects .project-card h3 {
+    color: #002f6c;
+    font-size: 1.1rem;
+    padding: 1rem 1rem 0.5rem;
+  }
+  #projects .project-card p {
+    color: #555;
+    font-size: 0.95rem;
+    padding: 0 1rem 1rem;
+  }
+  #projects .before-after {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0 1rem 1rem;
+  }
+  #projects figure {
+    margin: 0;
+  }
+  #projects img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    cursor: zoom-in;
+  }
+  #projects img.project-before-look {
+    filter: grayscale(65%) brightness(0.75) contrast(0.9);
+  }
+  #projects img.project-after-look {
+    filter: saturate(1.08) brightness(1.05) contrast(1.05);
+  }
+  #projects figcaption {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #002f6c;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .image-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    z-index: 2000;
+  }
+  .image-modal.show {
+    display: flex;
+  }
+  .image-modal img {
+    width: auto;
+    max-width: 92vw;
+    max-height: 90vh;
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+  }
+  .image-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 2.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem 0.4rem;
+  }
+  .image-modal-close:hover,
+  .image-modal-close:focus {
+    color: #da1212;
+    outline: none;
+  }
+
   /* Contact */
   #contact form {
     max-width: 700px;
@@ -630,6 +725,13 @@
     #testimonials .testimonial-list {
       grid-template-columns: 1fr;
       gap: 1.5rem;
+    }
+    #projects .projects-list {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    #projects img {
+      height: 150px;
     }
     .footer-container {
       grid-template-columns: 1fr;
@@ -917,6 +1019,61 @@
     </blockquote>
   </div>
 </section>
+
+<section id="projects" role="region" aria-labelledby="projects-heading">
+  <h2 id="projects-heading">Recent Before &amp; After Projects</h2>
+  <div class="projects-list" role="list">
+    <article class="project-card" role="listitem">
+      <h3>Electrical Panel Upgrade</h3>
+      <p>Upgraded from an outdated panel to a modern, safer high-capacity panel.</p>
+      <div class="before-after">
+        <figure>
+          <img class="project-before-look" src="images/projects/panel-after.jpg" alt="Before electrical panel upgrade" loading="lazy" />
+          <figcaption>Before</figcaption>
+        </figure>
+        <figure>
+          <img class="project-after-look" src="images/projects/panel-after.jpg" alt="After electrical panel upgrade" loading="lazy" />
+          <figcaption>After</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <article class="project-card" role="listitem">
+      <h3>Kitchen Recessed Lighting</h3>
+      <p>Replaced dim legacy fixtures with bright, efficient recessed LED lighting.</p>
+      <div class="before-after">
+        <figure>
+          <img src="images/projects/kitchen-before.jpg" alt="Before kitchen lighting upgrade" loading="lazy" />
+          <figcaption>Before</figcaption>
+        </figure>
+        <figure>
+          <img src="images/projects/kitchen-after.jpg" alt="After kitchen lighting upgrade" loading="lazy" />
+          <figcaption>After</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <article class="project-card" role="listitem">
+      <h3>Home EV Charger Installation</h3>
+      <p>Installed dedicated circuit and wall-mounted charger for faster home charging.</p>
+      <div class="before-after">
+        <figure>
+          <img src="images/projects/ev-before.jpg" alt="Before EV charger installation" loading="lazy" />
+          <figcaption>Before</figcaption>
+        </figure>
+        <figure>
+          <img src="images/projects/ev-after.jpg" alt="After EV charger installation" loading="lazy" />
+          <figcaption>After</figcaption>
+        </figure>
+      </div>
+    </article>
+  </div>
+</section>
+
+<div id="image-modal" class="image-modal" aria-hidden="true" role="dialog" aria-label="Expanded project image">
+  <button type="button" id="image-modal-close" class="image-modal-close" aria-label="Close image modal">&times;</button>
+  <img id="image-modal-img" src="" alt="Expanded project image" />
+</div>
 
 <section id="contact" role="region" aria-labelledby="contact-heading">
   <h2 id="contact-heading">Contact Us</h2>

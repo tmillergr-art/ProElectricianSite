@@ -90,6 +90,54 @@ document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
   });
 });
 
+const imageModal = document.getElementById('image-modal');
+const imageModalImg = document.getElementById('image-modal-img');
+const imageModalClose = document.getElementById('image-modal-close');
+const projectImages = document.querySelectorAll('#projects img');
+
+function openImageModal(src, alt) {
+  if (!imageModal || !imageModalImg) {
+    return;
+  }
+  imageModalImg.src = src;
+  imageModalImg.alt = alt || 'Expanded project image';
+  imageModal.classList.add('show');
+  imageModal.setAttribute('aria-hidden', 'false');
+}
+
+function closeImageModal() {
+  if (!imageModal || !imageModalImg) {
+    return;
+  }
+  imageModal.classList.remove('show');
+  imageModal.setAttribute('aria-hidden', 'true');
+  imageModalImg.src = '';
+}
+
+projectImages.forEach((img) => {
+  img.addEventListener('click', () => {
+    openImageModal(img.src, img.alt);
+  });
+});
+
+if (imageModalClose) {
+  imageModalClose.addEventListener('click', closeImageModal);
+}
+
+if (imageModal) {
+  imageModal.addEventListener('click', (event) => {
+    if (event.target === imageModal) {
+      closeImageModal();
+    }
+  });
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && imageModal && imageModal.classList.contains('show')) {
+    closeImageModal();
+  }
+});
+
 // Form submission
 contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
