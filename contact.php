@@ -1,6 +1,6 @@
 <?php
 // Configuration
-$recipient_email = 'support@proelectriciannow.com'; // CHANGE THIS TO YOUR EMAIL ADDRESS
+$recipient_email = 'getsomegr@gmail.com'; // CHANGE THIS TO YOUR EMAIL ADDRESS
 $from_email = 'noreply@proelectriciannow.com';
 
 // Set response header
