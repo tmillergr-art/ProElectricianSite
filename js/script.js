@@ -208,8 +208,30 @@ function showFormMessage(text, type) {
 // Service filter functionality
 const serviceFilterInput = document.getElementById('service-filter');
 if (serviceFilterInput) {
-  serviceFilterInput.addEventListener('input', () => {
-    const filter = serviceFilterInput.value.toLowerCase();
+  const minAutocompleteChars = 3;
+  const serviceTitles = [...new Set(Array.from(document.querySelectorAll('#services .service h3'))
+    .map((heading) => heading.textContent.trim())
+    .filter(Boolean))];
+
+  serviceFilterInput.addEventListener('input', (event) => {
+    const typedValue = serviceFilterInput.value;
+    const query = typedValue.trim();
+    const isInsertAction = typeof event.inputType === 'string'
+      ? event.inputType.startsWith('insert')
+      : true;
+
+    if (isInsertAction && query.length >= minAutocompleteChars) {
+      const prefixMatch = serviceTitles.find(
+        (title) => title.toLowerCase().startsWith(query.toLowerCase())
+      );
+
+      if (prefixMatch && prefixMatch.toLowerCase() !== query.toLowerCase()) {
+        serviceFilterInput.value = prefixMatch;
+        serviceFilterInput.setSelectionRange(query.length, prefixMatch.length);
+      }
+    }
+
+    const filter = query.toLowerCase();
     document.querySelectorAll('#services .service').forEach(s => {
       const text = s.textContent.toLowerCase();
       if (text.includes(filter)) {
