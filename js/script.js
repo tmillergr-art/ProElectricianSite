@@ -2,6 +2,22 @@ const menuToggle = document.querySelector('.menu-toggle');
 const menu = document.getElementById('primary-menu');
 const contactForm = document.getElementById('contact-form');
 const formMessage = document.getElementById('form-message');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const messageInput = document.getElementById('message');
+
+function closeMobileMenu({ focusToggle = false } = {}) {
+  if (!menuToggle || !menu) {
+    return;
+  }
+
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menu.classList.remove('show');
+
+  if (focusToggle) {
+    menuToggle.focus();
+  }
+}
 
 function trackConversion(eventName, eventData = {}) {
   if (typeof window.gtag === 'function') {
@@ -20,11 +36,25 @@ menuToggle.addEventListener('click', () => {
   menu.classList.toggle('show');
 });
 
+// Close menu when clicking outside of menu/toggle
+document.addEventListener('click', (event) => {
+  if (!menu.classList.contains('show')) {
+    return;
+  }
+
+  const clickTarget = event.target;
+  const clickedInsideMenu = menu.contains(clickTarget);
+  const clickedToggle = menuToggle.contains(clickTarget);
+
+  if (!clickedInsideMenu && !clickedToggle) {
+    closeMobileMenu();
+  }
+});
+
 // Close menu when a link is clicked
 menu.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', (e) => {
-    menuToggle.setAttribute('aria-expanded', 'false');
-    menu.classList.remove('show');
+    closeMobileMenu();
     
     // Handle smooth scroll for anchor links
     const href = link.getAttribute('href');
@@ -133,7 +163,15 @@ if (imageModal) {
 }
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && imageModal && imageModal.classList.contains('show')) {
+  if (event.key !== 'Escape') {
+    return;
+  }
+
+  if (menu && menu.classList.contains('show')) {
+    closeMobileMenu({ focusToggle: true });
+  }
+
+  if (imageModal && imageModal.classList.contains('show')) {
     closeImageModal();
   }
 });
@@ -141,17 +179,33 @@ document.addEventListener('keydown', (event) => {
 // Form submission
 contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  [nameInput, emailInput, messageInput].forEach((field) => {
+    if (field) {
+      field.setAttribute('aria-invalid', 'false');
+    }
+  });
   
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+  const message = messageInput.value.trim();
   
   if (!name || !email || !message) {
+    if (!name) {
+      nameInput.setAttribute('aria-invalid', 'true');
+    }
+    if (!email) {
+      emailInput.setAttribute('aria-invalid', 'true');
+    }
+    if (!message) {
+      messageInput.setAttribute('aria-invalid', 'true');
+    }
     showFormMessage('Please fill in all fields.', 'error');
     return;
   }
   
   if (!/^\S+@\S+\.\S+$/.test(email)) {
+    emailInput.setAttribute('aria-invalid', 'true');
     showFormMessage('Please enter a valid email address.', 'error');
     return;
   }
@@ -180,6 +234,11 @@ contactForm.addEventListener('submit', async (e) => {
       });
       showFormMessage('Message sent successfully! We\'ll be in touch soon.', 'success');
       contactForm.reset();
+      [nameInput, emailInput, messageInput].forEach((field) => {
+        if (field) {
+          field.setAttribute('aria-invalid', 'false');
+        }
+      });
     } else {
       showFormMessage(data.error || 'Failed to send message. Please try again.', 'error');
     }
@@ -189,6 +248,18 @@ contactForm.addEventListener('submit', async (e) => {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Send Message';
   }
+});
+
+[nameInput, emailInput, messageInput].forEach((field) => {
+  if (!field) {
+    return;
+  }
+
+  field.addEventListener('input', () => {
+    if (field.getAttribute('aria-invalid') === 'true') {
+      field.setAttribute('aria-invalid', 'false');
+    }
+  });
 });
 
 function showFormMessage(text, type) {
@@ -208,7 +279,10 @@ function showFormMessage(text, type) {
 // Service filter functionality
 const serviceFilterInput = document.getElementById('service-filter');
 if (serviceFilterInput) {
+<<<<<<< Updated upstream
   const minAutocompleteChars = 3;
+=======
+>>>>>>> Stashed changes
   const serviceTitles = [...new Set(Array.from(document.querySelectorAll('#services .service h3'))
     .map((heading) => heading.textContent.trim())
     .filter(Boolean))];
@@ -220,7 +294,11 @@ if (serviceFilterInput) {
       ? event.inputType.startsWith('insert')
       : true;
 
+<<<<<<< Updated upstream
     if (isInsertAction && query.length >= minAutocompleteChars) {
+=======
+    if (query && isInsertAction) {
+>>>>>>> Stashed changes
       const prefixMatch = serviceTitles.find(
         (title) => title.toLowerCase().startsWith(query.toLowerCase())
       );
@@ -231,7 +309,11 @@ if (serviceFilterInput) {
       }
     }
 
+<<<<<<< Updated upstream
     const filter = query.toLowerCase();
+=======
+    const filter = serviceFilterInput.value.toLowerCase();
+>>>>>>> Stashed changes
     document.querySelectorAll('#services .service').forEach(s => {
       const text = s.textContent.toLowerCase();
       if (text.includes(filter)) {
